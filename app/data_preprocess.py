@@ -1,3 +1,4 @@
+from collections import Counter
 import pandas as pd
 import pytz
 from datetime import datetime
@@ -57,3 +58,34 @@ def repo_counts_per_language_per_year(df):
     df = df.sort_values(by=['Year', 'Repo Count'], ascending=[True, False])
 
     return df
+
+def preprocess_issues_pulls(response):
+    df = pd.DataFrame({
+                'Title': [pr['title'] for pr in response],
+                'Created At': pd.to_datetime([pr['created_at'] for pr in response])
+            })
+    df['Count'] = 1
+    df = df.sort_values('Created At')
+    df['Cumulative Count'] = df['Count'].cumsum()
+
+    return df
+
+def count_commits_by_date(commits):
+    dates = [commit['commit']['committer']['date'][:10] for commit in commits]
+    date_counts = Counter(dates)
+    df = pd.DataFrame(date_counts.items(), columns=['Date', 'Commits'])
+    df['Date'] = pd.to_datetime(df['Date'])
+    df = df.sort_values(by='Date')
+    return df
+
+def prepare_donut_data(user):
+    repos = fetch_all_repos(user)
+    data = []
+    for repo in repos:
+        name = repo['name']
+        full_name = repo['full_name']
+        count = get_commit_count(full_name)
+        if count > 0:
+            data.append({'Repository': name, 'Commits': count})
+    return pd.DataFrame(data)
+
