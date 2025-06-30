@@ -21,6 +21,11 @@ language = st.sidebar.multiselect(
     default=["Python"]
 )
 
+if not language:
+    st.sidebar.warning("Please select at least one programming language to fetch data or upload an csv file with repository data.")
+    uploaded_file = st.sidebar.file_uploader("Upload a CSV file with repository data", type=["csv"])
+    st.stop()
+
 year_range = st.sidebar.slider(
     "Select Year Range",
     min_value=2008,

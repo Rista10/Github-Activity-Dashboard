@@ -13,6 +13,9 @@ st.set_page_config(
 st.markdown('# Profile & Repository Drilldown')
 
 user_name = st.sidebar.text_input("Enter your GitHub username:", value="Rista10")
+if not user_name:
+    st.sidebar.warning("Please enter a GitHub username.")
+    st.stop()
 
 profile = fetch_user_data(user_name)
 

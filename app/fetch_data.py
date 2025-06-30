@@ -7,7 +7,7 @@ from collections import defaultdict
 import requests
 import time
 from datetime import datetime
-from bs4 import BeautifulSoup
+
 
 load_dotenv()
 GITHUB_PAT = os.getenv('PAT_TOKEN')

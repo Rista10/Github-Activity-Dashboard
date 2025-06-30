@@ -18,6 +18,10 @@ st.set_page_config(
 # open issues over time - bar chart
 
 repo_name = st.sidebar.text_input("Enter the repository name:", value="deepseek-ai/DeepSeek-R1")
+if not repo_name:
+    st.sidebar.warning("Please enter a repository name.")
+    st.stop()
+    
 st.title(f"{repo_name} Repository Dashboard")
 st.write('#####')
 
