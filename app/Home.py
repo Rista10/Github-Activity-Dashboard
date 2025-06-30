@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import os
 
 # Page configuration
 st.set_page_config(
@@ -12,8 +13,9 @@ st.set_page_config(
 st.title("📊 GitHub Activity Dashboard")
 st.markdown("Welcome to the interactive GitHub Activity Dashboard built with **Streamlit**.")
 
-
-logo = Image.open("../assets/background-image.webp")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+image_path = os.path.normpath(os.path.join(script_dir, "../assets/background-image.webp"))
+logo = Image.open(image_path)
 st.image(logo)
 
 # Project overview
